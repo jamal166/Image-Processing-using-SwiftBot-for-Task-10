@@ -20,6 +20,9 @@ public class Inc00_SkeletonStop {
         while (!xPressed) {
             sleep(100);
         }
+        System.out.println("[INC00] X pressed. Exiting cleanly.");
+        api.disableAllButtons();
+    }
 }
 
 
