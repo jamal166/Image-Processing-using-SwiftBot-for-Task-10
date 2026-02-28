@@ -37,6 +37,10 @@ public class Inc02_QRModeSelect {
         System.out.println("[INC02] Exiting.");
     }
     
+    private Mode scanModeByQr() 
+    {
+    	
+    }
     
     
     
