@@ -34,6 +34,12 @@ public class Inc01_UnderlightsTest
 	        System.out.println("[INC01] Stopped."); 
 	        
 	    }
+	    private void setRGB(int r, int g, int b) {
+	        api.fillUnderlights(new int[]{r, g, b});
+	    }
+	    private void setupXButtonStop() {
+	        api.disableAllButtons();
+	        api.enableButton(Button.X, () -> xPressed = true);
 
 }
 
