@@ -18,6 +18,10 @@ public class Inc01_UnderlightsTest
 	            sleep(1000);
 	            if (xPressed) break;
 	        
+	            setRGB(0, 255, 0);  // green
+	            sleep(1000);
+	            if (xPressed) break;
+	    }
 	    }
 
 }
