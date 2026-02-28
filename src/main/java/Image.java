@@ -10,6 +10,13 @@ public class Inc02_QRModeSelect {
     	
     	final String text; 
     	Mode(String t) { text = t; }
+    	
+    	static Mode from(String s) {
+    		for (Mode m : values()) if (m.text.equals(s)) 
+    			return m; 
+    		
+    		return null;
+    	}
     }
 }
 
