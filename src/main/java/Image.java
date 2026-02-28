@@ -23,6 +23,10 @@ public class Inc00_SkeletonStop {
         System.out.println("[INC00] X pressed. Exiting cleanly.");
         api.disableAllButtons();
     }
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
+    }
 }
 
 
