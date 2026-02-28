@@ -50,6 +50,12 @@ public class Inc02_QRModeSelect {
                      System.out.println("[INC02] No QR detected. Try again...");
                      continue;
                  }
+                 Mode m = Mode.from(txt);
+                 if (m != null) return m;
+
+                 System.out.println("[INC02] Invalid QR text: \"" + txt + "\"");
+                 System.out.println("        Expect exactly: Curious SwiftBot | Scaredy SwiftBot | Dubious SwiftBot");
+             } 
                 		 
                 		 
                 		 
