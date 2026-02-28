@@ -21,7 +21,13 @@ public class Inc01_UnderlightsTest
 	            setRGB(0, 255, 0);  // green
 	            sleep(1000);
 	            if (xPressed) break;
+	            
+	            setRGB(255, 0, 0);  // red
+	            sleep(1000);
+	            if (xPressed) break;
 	    }
+	        
+	        
 	    }
 
 }
