@@ -61,7 +61,14 @@ public class Inc02_QRModeSelect {
              } catch (Exception e) {
                  System.out.println("[INC02] Unexpected error: " + e.getMessage());
              }
-         }		 
+         }
+    	 return Mode.CURIOUS; // not used if X pressed
+    }
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
+    
+}
                 		 
                 		 
                 		 
