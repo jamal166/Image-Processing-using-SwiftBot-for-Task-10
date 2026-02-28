@@ -1,4 +1,5 @@
 import swiftbot.*;
+import java.awt.image.BufferedImage;
  
 public class Inc01_UnderlightsTest 
 {
