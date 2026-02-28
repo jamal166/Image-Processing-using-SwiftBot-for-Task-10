@@ -18,6 +18,20 @@ public class Inc02_QRModeSelect {
     		return null;
     	}
     }
+    private static volatile boolean xPressed = false;
+    private final SwiftBotAPI api = SwiftBotAPI.INSTANCE;
+
+    public static void main(String[] args) {
+        new Inc02_QRModeSelect().run();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
