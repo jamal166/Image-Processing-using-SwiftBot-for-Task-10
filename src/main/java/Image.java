@@ -56,7 +56,12 @@ public class Inc02_QRModeSelect {
                  System.out.println("[INC02] Invalid QR text: \"" + txt + "\"");
                  System.out.println("        Expect exactly: Curious SwiftBot | Scaredy SwiftBot | Dubious SwiftBot");
              } 
-                		 
+             catch (IllegalArgumentException e) {
+                 System.out.println("[INC02] QR decode error: " + e.getMessage());
+             } catch (Exception e) {
+                 System.out.println("[INC02] Unexpected error: " + e.getMessage());
+             }
+         }		 
                 		 
                 		 
                 		 
