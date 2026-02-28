@@ -25,6 +25,9 @@ public class Inc01_UnderlightsTest
 	            setRGB(255, 0, 0);  // red
 	            sleep(1000);
 	            if (xPressed) break;
+	            
+	            api.disableUnderlights(); // off
+	            sleep(1000);
 	    }
 	        
 	        
