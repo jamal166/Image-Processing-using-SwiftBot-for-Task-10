@@ -13,7 +13,13 @@ public class Inc00_SkeletonStop {
             e.printStackTrace();
         }
     }
-   
+    private void run() {
+        setupXButtonStop();
+        System.out.println("[INC00] Running. Press X to stop.");
+
+        while (!xPressed) {
+            sleep(100);
+        }
 }
 
 
