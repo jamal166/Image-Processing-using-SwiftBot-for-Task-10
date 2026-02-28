@@ -39,8 +39,22 @@ public class Inc02_QRModeSelect {
     
     private Mode scanModeByQr() 
     {
-    	
+    	 while (!xPressed) {
+             try {
+                 BufferedImage qr = api.getQRImage();
+                 String txt = api.decodeQRImage(qr);
+                 if (txt == null) txt = "";
+                 txt = txt.trim()
+                		 
+                		 
+                		 
+                		 
+                		 
+                		 
+                		 
     }
+    	
+    	   
     
     
     
