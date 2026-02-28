@@ -29,7 +29,9 @@ public class Inc01_UnderlightsTest
 	            api.disableUnderlights(); // off
 	            sleep(1000);
 	    }
-	        
+	        api.disableUnderlights();
+	        api.disableAllButtons();
+	        System.out.println("[INC01] Stopped."); 
 	        
 	    }
 
