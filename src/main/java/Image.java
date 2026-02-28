@@ -28,7 +28,11 @@ public class Inc02_QRModeSelect {
     private void run() {
         setupXButtonStop();
         System.out.println("[INC02] Scan QR for mode (Curious/Scaredy/Dubious). Press X to stop.");
-
+        
+        Mode m = scanModeByQr();
+        if (!xPressed) {
+            System.out.println("[INC02] Mode selected: " + m.text);
+        }
     
     
     
