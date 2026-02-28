@@ -7,6 +7,9 @@ public class Inc02_QRModeSelect {
         CURIOUS("Curious SwiftBot"),
         SCAREDY("Scaredy SwiftBot"),
         DUBIOUS("Dubious SwiftBot");
+    	
+    	final String text; 
+    	Mode(String t) { text = t; }
     }
 }
 
