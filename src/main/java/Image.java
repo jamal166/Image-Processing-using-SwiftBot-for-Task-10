@@ -1,5 +1,5 @@
 import swiftbot.*;
-
+ 
 public class Inc00_SkeletonStop {
 
     private static volatile boolean xPressed = false;
@@ -13,27 +13,8 @@ public class Inc00_SkeletonStop {
             e.printStackTrace();
         }
     }
-
-    private void run() {
-        setupXButtonStop();
-        System.out.println("[INC00] Running. Press X to stop.");
-
-        while (!xPressed) {
-            sleep(100);
-        }
-
-        System.out.println("[INC00] X pressed. Exiting cleanly.");
-        api.disableAllButtons();
-    }
-
-    private void setupXButtonStop() {
-        api.disableAllButtons();
-        api.enableButton(Button.X, () -> xPressed = true);
-    }
-
-    private static void sleep(int ms) {
-        try { Thread.sleep(ms); } catch (InterruptedException ignored) {}
-    }
+   
 }
+
 
 
