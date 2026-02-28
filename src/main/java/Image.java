@@ -44,7 +44,12 @@ public class Inc02_QRModeSelect {
                  BufferedImage qr = api.getQRImage();
                  String txt = api.decodeQRImage(qr);
                  if (txt == null) txt = "";
-                 txt = txt.trim()
+                 txt = txt.trim();
+                 
+                 if (txt.isEmpty()) {
+                     System.out.println("[INC02] No QR detected. Try again...");
+                     continue;
+                 }
                 		 
                 		 
                 		 
