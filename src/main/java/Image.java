@@ -33,6 +33,9 @@ public class Inc02_QRModeSelect {
         if (!xPressed) {
             System.out.println("[INC02] Mode selected: " + m.text);
         }
+        api.disableAllButtons();
+        System.out.println("[INC02] Exiting.");
+    }
     
     
     
