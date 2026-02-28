@@ -40,6 +40,10 @@ public class Inc01_UnderlightsTest
 	    private void setupXButtonStop() {
 	        api.disableAllButtons();
 	        api.enableButton(Button.X, () -> xPressed = true);
+	    }
+	    private static void sleep(int ms) {
+	        try { Thread.sleep(ms); } catch (InterruptedException ignored) {}
+	    }
 
 }
 
