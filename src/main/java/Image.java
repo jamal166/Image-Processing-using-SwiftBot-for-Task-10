@@ -13,7 +13,10 @@ public class Inc01_UnderlightsTest
 	        setupXButtonStop();
 	        System.out.println("[INC01] Underlights test. Press X to stop.");
 	        
-	        
+	        while (!xPressed) {
+	            setRGB(0, 0, 255);  // blue
+	            sleep(1000);
+	            if (xPressed) break;
 	        
 	    }
 
