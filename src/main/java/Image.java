@@ -12,3 +12,12 @@ public class Inc03_SaveOnePhoto {
     private final SwiftBotAPI api = SwiftBotAPI.INSTANCE;
     private static final Path IMAGE_DIR = Paths.get("/data/home/pi/task10/images");
     private static final ImageSize SIZE = ImageSize.SQUARE_480x480;
+    
+    public static void main(String[] args) {
+        try {
+            new Inc03_SaveOnePhoto().run();
+        } catch (Exception e) {
+            System.out.println("[FATAL] " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
