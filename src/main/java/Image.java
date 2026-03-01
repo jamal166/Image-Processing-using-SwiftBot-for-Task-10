@@ -21,3 +21,8 @@ public class Inc03_SaveOnePhoto {
             e.printStackTrace();
         }
     }
+    private void run() throws Exception {
+        setupXButtonStop();
+        Files.createDirectories(IMAGE_DIR);
+
+        System.out.println("[INC03] Taking one photo now... Press X to stop anytime.");
