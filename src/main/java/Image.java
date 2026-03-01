@@ -35,3 +35,8 @@ public class Inc03_SaveOnePhoto {
 
         api.disableAllButtons();
     }
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
+    }
+}
