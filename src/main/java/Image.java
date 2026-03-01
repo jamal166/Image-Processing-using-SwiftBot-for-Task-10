@@ -26,3 +26,12 @@ public class Inc03_SaveOnePhoto {
         Files.createDirectories(IMAGE_DIR);
 
         System.out.println("[INC03] Taking one photo now... Press X to stop anytime.");
+        BufferedImage img = api.takeStill(SIZE);
+        String ts = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(LocalDateTime.now());
+        Path out = IMAGE_DIR.resolve("inc03_" + ts + ".jpg");
+
+        ImageIO.write(img, "jpg", out.toFile());
+        System.out.println("[INC03] Saved: " + out);
+
+        api.disableAllButtons();
+    }
