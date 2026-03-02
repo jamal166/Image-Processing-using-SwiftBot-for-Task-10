@@ -39,4 +39,9 @@ public class Inc04_UltrasoundTest {
         }
         return ok == 0 ? -1 : sum / ok;
     }
+    
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
+    }
 
