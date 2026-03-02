@@ -19,6 +19,15 @@ public class Inc06_EncounterSaveImage {
     private static final int WANDER_L = 18;
     private static final int WANDER_R = 20;
 
+    public static void main(String[] args) {
+        try {
+            new Inc06_EncounterSaveImage().run();
+        } catch (Exception e) {
+            System.out.println("[FATAL] " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void run() throws Exception {
         setupXButtonStop();
         Files.createDirectories(IMAGE_DIR);
@@ -42,12 +51,13 @@ public class Inc06_EncounterSaveImage {
 
             if (!within2m) alreadyTriggered = false; // allow re-trigger when object leaves
         }
-        
+
         api.stopMove();
         api.disableUnderlights();
         api.disableAllButtons();
         System.out.println("[INC06] Stopped.");
     }
+
     private void saveImage(String prefix) throws Exception {
         BufferedImage img = api.takeStill(SIZE);
         String ts = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(LocalDateTime.now());
@@ -56,6 +66,7 @@ public class Inc06_EncounterSaveImage {
         ImageIO.write(img, "jpg", out.toFile());
         System.out.println("[INC06] Saved: " + out);
     }
+
     private double readDistanceAvg(int samples) {
         double sum = 0; int ok = 0;
         for (int i=0;i<samples;i++){
@@ -67,6 +78,7 @@ public class Inc06_EncounterSaveImage {
         }
         return ok==0 ? -1 : sum/ok;
     }
+
     private void setupXButtonStop() {
         api.disableAllButtons();
         api.enableButton(Button.X, () -> xPressed = true);
