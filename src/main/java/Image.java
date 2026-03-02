@@ -17,3 +17,30 @@ public class Inc05_WanderNoObjectTurn {
     public static void main(String[] args) {
         new Inc05_WanderNoObjectTurn().run();
     }
+    private void run() {
+        setupXButtonStop();
+        setBlue();
+        System.out.println("[INC05] Wandering. If no object within 2m for 5s, pause 1s then turn slightly. X to stop.");
+
+        Instant lastSeen = Instant.now();
+
+        while (!xPressed) {
+            // Wander a bit
+            api.move(WANDER_L, WANDER_R, 250);
+
+            // Check distance
+            double d = readDistanceAvg(2);
+            boolean objectWithin2m = (d > 0 && d <= DETECT_WITHIN_CM);
+
+            if (objectWithin2m) {
+                lastSeen = Instant.now();
+                System.out.printf("[INC05] Object within 2m at %.1f cm%n", d);
+            } else {
+                if (Duration.between(lastSeen, Instant.now()).compareTo(NO_OBJECT_TIMEOUT) >= 0) {
+                    api.stopMove();
+                    sleep(1000);
+                    slightTurn();
+                    lastSeen = Instant.now();
+                }
+            }
+        }
