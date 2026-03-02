@@ -22,3 +22,19 @@ public class Inc07_ScaredyOnly {
         try { new Inc07_ScaredyOnly().run(); }
         catch (Exception e) { e.printStackTrace(); }
     }
+    private void run() throws Exception {
+        setupXButtonStop();
+        Files.createDirectories(IMAGE_DIR);
+
+        setBlue();
+        System.out.println("[INC07] Scaredy only. If object <=50cm: photo + blink red + flee. X to stop.");
+
+        while (!xPressed) {
+            api.move(WANDER_L, WANDER_R, 200);
+
+            double d = readDistanceAvg(2);
+            if (d > 0 && d <= SCAREDY_WITHIN_CM) {
+                System.out.printf("[INC07] Trigger! distance=%.1f cm%n", d);
+                scaredyAction();
+            }
+        }
