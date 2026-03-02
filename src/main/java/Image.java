@@ -48,3 +48,11 @@ public class Inc06_EncounterSaveImage {
         api.disableAllButtons();
         System.out.println("[INC06] Stopped.");
     }
+    private void saveImage(String prefix) throws Exception {
+        BufferedImage img = api.takeStill(SIZE);
+        String ts = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(LocalDateTime.now());
+        String name = prefix + "_" + ts + "_" + UUID.randomUUID().toString().substring(0,8) + ".jpg";
+        Path out = IMAGE_DIR.resolve(name);
+        ImageIO.write(img, "jpg", out.toFile());
+        System.out.println("[INC06] Saved: " + out);
+    }
