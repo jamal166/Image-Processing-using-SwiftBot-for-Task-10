@@ -23,4 +23,7 @@ public class Inc04_UltrasoundTest {
             System.out.printf("[INC04] Distance = %.1f cm | within2m=%s%n", d, within2m);
             sleep(500);
         }
+        api.disableAllButtons();
+        System.out.println("[INC04] Stopped.");
+    }
 
