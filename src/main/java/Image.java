@@ -43,3 +43,24 @@ public class Inc07_ScaredyOnly {
         api.disableAllButtons();
         System.out.println("[INC07] Stopped.");
     }
+    private void scaredyAction() throws Exception {
+        // Save image
+        saveImage("scaredy");
+
+        // Blink red
+        for (int i=0;i<3 && !xPressed;i++){
+            setRed(); sleep(150);
+            api.disableUnderlights(); sleep(150);
+        }
+
+        if (xPressed) return;
+
+        // Flee red
+        setRed();
+        api.move(-35, -35, 600);  // back up
+        api.move(40, -40, 450);   // turn away
+        api.move(35, 35, 3000);   // move away 3 seconds
+        api.stopMove();
+
+        setBlue();
+    }
