@@ -49,3 +49,8 @@ public class Inc05_WanderNoObjectTurn {
         api.disableAllButtons();
         System.out.println("[INC05] Stopped.");
     }
+    private void slightTurn() {
+        int turn = Math.random() < 0.5 ? 1 : -1;
+        api.move(20 * turn, -20 * turn, 250);
+        api.stopMove();
+    }
