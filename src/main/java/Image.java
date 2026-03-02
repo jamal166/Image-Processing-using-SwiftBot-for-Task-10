@@ -44,3 +44,8 @@ public class Inc05_WanderNoObjectTurn {
                 }
             }
         }
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+        System.out.println("[INC05] Stopped.");
+    }
