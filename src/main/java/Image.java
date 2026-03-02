@@ -54,3 +54,15 @@ public class Inc05_WanderNoObjectTurn {
         api.move(20 * turn, -20 * turn, 250);
         api.stopMove();
     }
+    private double readDistanceAvg(int samples) {
+        double sum = 0;
+        int ok = 0;
+        for (int i = 0; i < samples; i++) {
+            try {
+                double d = api.useUltrasound();
+                if (d > 0 && d < 5000) { sum += d; ok++; }
+            } catch (Exception ignored) {}
+            sleep(40);
+        }
+        return ok == 0 ? -1 : sum / ok;
+    }
