@@ -64,3 +64,11 @@ public class Inc07_ScaredyOnly {
 
         setBlue();
     }
+    private void saveImage(String prefix) throws Exception {
+        BufferedImage img = api.takeStill(SIZE);
+        String ts = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(LocalDateTime.now());
+        String name = prefix + "_" + ts + "_" + UUID.randomUUID().toString().substring(0,8) + ".jpg";
+        Path out = IMAGE_DIR.resolve(name);
+        ImageIO.write(img, "jpg", out.toFile());
+        System.out.println("[INC07] Saved: " + out);
+    }
