@@ -10,3 +10,17 @@ public class Inc04_UltrasoundTest {
     public static void main(String[] args) {
         new Inc04_UltrasoundTest().run();
     }
+    
+    
+    private void run() {
+        setupXButtonStop();
+        System.out.println("[INC04] Ultrasound test. Press X to stop.");
+
+        while (!xPressed) {
+            double d = readDistanceAvg(3);
+            boolean within2m = (d > 0 && d <= DETECT_WITHIN_CM);
+
+            System.out.printf("[INC04] Distance = %.1f cm | within2m=%s%n", d, within2m);
+            sleep(500);
+        }
+
