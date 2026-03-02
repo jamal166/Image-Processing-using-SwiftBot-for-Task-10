@@ -38,3 +38,8 @@ public class Inc07_ScaredyOnly {
                 scaredyAction();
             }
         }
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+        System.out.println("[INC07] Stopped.");
+    }
