@@ -42,3 +42,9 @@ public class Inc06_EncounterSaveImage {
 
             if (!within2m) alreadyTriggered = false; // allow re-trigger when object leaves
         }
+        
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+        System.out.println("[INC06] Stopped.");
+    }
