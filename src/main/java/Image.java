@@ -18,3 +18,27 @@ public class Inc06_EncounterSaveImage {
 
     private static final int WANDER_L = 18;
     private static final int WANDER_R = 20;
+
+    private void run() throws Exception {
+        setupXButtonStop();
+        Files.createDirectories(IMAGE_DIR);
+
+        api.fillUnderlights(new int[]{0,0,255});
+        System.out.println("[INC06] Wander. If object within 2m, save one image. X to stop.");
+
+        boolean alreadyTriggered = false;
+
+        while (!xPressed) {
+            api.move(WANDER_L, WANDER_R, 250);
+
+            double d = readDistanceAvg(2);
+            boolean within2m = (d > 0 && d <= DETECT_WITHIN_CM);
+
+            if (within2m && !alreadyTriggered) {
+                alreadyTriggered = true;
+                System.out.printf("[INC06] Encounter at %.1f cm. Capturing image...%n", d);
+                saveImage("encounter");
+            }
+
+            if (!within2m) alreadyTriggered = false; // allow re-trigger when object leaves
+        }
