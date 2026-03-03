@@ -5,7 +5,8 @@ import java.awt.image.BufferedImage;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID
+import java.util.UUID;
+
 public class Inc09_CuriousWithImageMovedCheck {
 
     private static volatile boolean xPressed = false;
@@ -26,6 +27,7 @@ public class Inc09_CuriousWithImageMovedCheck {
         try { new Inc09_CuriousWithImageMovedCheck().run(); }
         catch (Exception e) { e.printStackTrace(); }
     }
+
     private void run() throws Exception {
         setupXButtonStop();
         Files.createDirectories(IMAGE_DIR);
@@ -79,10 +81,12 @@ public class Inc09_CuriousWithImageMovedCheck {
                 setBlue();
             }
         }
+
         api.stopMove();
         api.disableUnderlights();
         api.disableAllButtons();
     }
+
     private void reachBuffer() {
         while (!xPressed) {
             double d = readDistanceAvg(2);
@@ -102,6 +106,7 @@ public class Inc09_CuriousWithImageMovedCheck {
         }
         api.stopMove();
     }
+
     private void blinkGreen() {
         for (int i=0;i<3 && !xPressed;i++){
             setGreen(); sleep(200);
@@ -115,6 +120,7 @@ public class Inc09_CuriousWithImageMovedCheck {
         api.move(20*turn, -20*turn, 250);
         api.stopMove();
     }
+
     private Path saveImage(String prefix) throws Exception {
         BufferedImage img = api.takeStill(SIZE);
         String ts = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss").format(LocalDateTime.now());
@@ -124,6 +130,8 @@ public class Inc09_CuriousWithImageMovedCheck {
         System.out.println("[INC09] Saved: " + out);
         return out;
     }
+
+    // ===== image processing helpers (pixel ops) =====
     private static int r(int p) { return (p >> 16) & 0xFF; }
     private static int g(int p) { return (p >> 8) & 0xFF; }
     private static int b(int p) { return p & 0xFF; }
@@ -153,46 +161,49 @@ public class Inc09_CuriousWithImageMovedCheck {
             }
         }
         return out;
-    }int avg = n==0 ? 128 : (int)(sum/n);
+    }
 
-    BufferedImage out = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
-    int white = (255<<16)|(255<<8)|255;
-    int black = 0;
-    for (int y=0;y<h;y++){
-        for (int x=0;x<w;x++){
-            int p = img.getRGB(x,y);
-            int br = (r(p)+g(p)+b(p))/3;
-            out.setRGB(x,y, br>=avg ? white : black);
+    private static int roiWhiteOccupancy(BufferedImage img) {
+        BufferedImage bw = thresholdToBW(img);
+
+        int w = bw.getWidth(), h = bw.getHeight();
+        int x0 = (int)Math.round(w*ROI_MIN), x1 = (int)Math.round(w*ROI_MAX);
+        int y0 = (int)Math.round(h*ROI_MIN), y1 = (int)Math.round(h*ROI_MAX);
+
+        int white = (255<<16)|(255<<8)|255;
+        int count = 0;
+
+        for (int y=y0;y<y1;y+=2){
+            for (int x=x0;x<x1;x+=2){
+                int p = bw.getRGB(x,y) & 0xFFFFFF;
+                if (p == (white & 0xFFFFFF)) count++;
+            }
         }
+        return count;
     }
-    return out;
-}
-private static int roiWhiteOccupancy(BufferedImage img) {
-    BufferedImage bw = thresholdToBW(img);
 
-    int w = bw.getWidth(), h = bw.getHeight();
-    int x0 = (int)Math.round(w*ROI_MIN), x1 = (int)Math.round(w*ROI_MAX);
-    int y0 = (int)Math.round(h*ROI_MIN), y1 = (int)Math.round(h*ROI_MAX);
-
-    int white = (255<<16)|(255<<8)|255;
-    int count = 0;
-
-    for (int y=y0;y<y1;y+=2){
-        for (int x=x0;x<x1;x+=2){
-            int p = bw.getRGB(x,y) & 0xFFFFFF;
-            if (p == (white & 0xFFFFFF)) count++;
+    // ===== ultrasound + lights + buttons =====
+    private double readDistanceAvg(int samples) {
+        double sum=0; int ok=0;
+        for(int i=0;i<samples;i++){
+            try{
+                double d=api.useUltrasound();
+                if(d>0 && d<5000){ sum+=d; ok++; }
+            }catch(Exception ignored){}
+            sleep(40);
         }
+        return ok==0 ? -1 : sum/ok;
     }
-    return count;
-}
-private double readDistanceAvg(int samples) {
-    double sum=0; int ok=0;
-    for(int i=0;i<samples;i++){
-        try{
-            double d=api.useUltrasound();
-            if(d>0 && d<5000){ sum+=d; ok++; }
-        }catch(Exception ignored){}
-        sleep(40);
+
+    private void setBlue(){ api.fillUnderlights(new int[]{0,0,255}); }
+    private void setGreen(){ api.fillUnderlights(new int[]{0,255,0}); }
+
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
     }
-    return ok==0 ? -1 : sum/ok;
+
+    private static void sleep(int ms) {
+        try{ Thread.sleep(ms);} catch(InterruptedException ignored){}
+    }
 }
