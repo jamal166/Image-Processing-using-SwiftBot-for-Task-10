@@ -140,3 +140,30 @@ public class Inc09_CuriousWithImageMovedCheck {
                 sum += br; n++;
             }
         }
+        int avg = n==0 ? 128 : (int)(sum/n);
+
+        BufferedImage out = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
+        int white = (255<<16)|(255<<8)|255;
+        int black = 0;
+        for (int y=0;y<h;y++){
+            for (int x=0;x<w;x++){
+                int p = img.getRGB(x,y);
+                int br = (r(p)+g(p)+b(p))/3;
+                out.setRGB(x,y, br>=avg ? white : black);
+            }
+        }
+        return out;
+    }int avg = n==0 ? 128 : (int)(sum/n);
+
+    BufferedImage out = new BufferedImage(w,h,BufferedImage.TYPE_INT_RGB);
+    int white = (255<<16)|(255<<8)|255;
+    int black = 0;
+    for (int y=0;y<h;y++){
+        for (int x=0;x<w;x++){
+            int p = img.getRGB(x,y);
+            int br = (r(p)+g(p)+b(p))/3;
+            out.setRGB(x,y, br>=avg ? white : black);
+        }
+    }
+    return out;
+}
