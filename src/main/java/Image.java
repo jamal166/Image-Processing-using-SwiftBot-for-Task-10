@@ -35,3 +35,23 @@ public class Inc08_CuriousOnlyBuffer {
         api.disableAllButtons();
         System.out.println("[INC08] Stopped.");
     }
+    private void curiousMaintainBuffer() {
+        setGreen();
+        api.stopMove();
+
+        while (!xPressed) {
+            double d = readDistanceAvg(2);
+            if (d <= 0) break;
+
+            if (d > BUFFER_CM + TOLERANCE_CM) {
+                api.startMove(25, 25);      // forward
+                sleep(120);
+            } else if (d < BUFFER_CM - TOLERANCE_CM) {
+                api.startMove(-25, -25);    // backward
+                sleep(120);
+            } else {
+                api.stopMove();
+                blinkGreen();
+                break;
+            }
+        }
