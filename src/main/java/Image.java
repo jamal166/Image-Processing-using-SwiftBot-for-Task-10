@@ -79,3 +79,7 @@ public class Inc09_CuriousWithImageMovedCheck {
                 setBlue();
             }
         }
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+    }
