@@ -124,3 +124,19 @@ public class Inc09_CuriousWithImageMovedCheck {
         System.out.println("[INC09] Saved: " + out);
         return out;
     }
+    private static int r(int p) { return (p >> 16) & 0xFF; }
+    private static int g(int p) { return (p >> 8) & 0xFF; }
+    private static int b(int p) { return p & 0xFF; }
+
+    private static BufferedImage thresholdToBW(BufferedImage img) {
+        int w = img.getWidth(), h = img.getHeight();
+        long sum = 0, n = 0;
+
+        // average brightness (sample)
+        for (int y=0;y<h;y+=2){
+            for (int x=0;x<w;x+=2){
+                int p = img.getRGB(x,y);
+                int br = (r(p)+g(p)+b(p))/3;
+                sum += br; n++;
+            }
+        }
