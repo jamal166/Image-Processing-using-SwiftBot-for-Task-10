@@ -102,3 +102,16 @@ public class Inc09_CuriousWithImageMovedCheck {
         }
         api.stopMove();
     }
+    private void blinkGreen() {
+        for (int i=0;i<3 && !xPressed;i++){
+            setGreen(); sleep(200);
+            api.disableUnderlights(); sleep(200);
+        }
+        setGreen();
+    }
+
+    private void slightTurn() {
+        int turn = Math.random() < 0.5 ? 1 : -1;
+        api.move(20*turn, -20*turn, 250);
+        api.stopMove();
+    }
