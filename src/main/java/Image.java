@@ -30,3 +30,8 @@ public class Inc08_CuriousOnlyBuffer {
                 setBlue();
             }
         }
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+        System.out.println("[INC08] Stopped.");
+    }
