@@ -75,3 +75,10 @@ public class Inc08_CuriousOnlyBuffer {
         }
         return ok==0 ? -1 : sum/ok;
     }
+    private void setBlue(){ api.fillUnderlights(new int[]{0,0,255}); }
+    private void setGreen(){ api.fillUnderlights(new int[]{0,255,0}); }
+
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
+    }
