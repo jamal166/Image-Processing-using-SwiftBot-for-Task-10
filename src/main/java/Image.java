@@ -55,3 +55,6 @@ public class Inc08_CuriousOnlyBuffer {
                 break;
             }
         }
+        api.stopMove();
+        api.disableUnderlights();
+    }
