@@ -16,3 +16,17 @@ public class Inc08_CuriousOnlyBuffer {
     public static void main(String[] args) {
         new Inc08_CuriousOnlyBuffer().run();
     }
+    private void run() {
+        setupXButtonStop();
+        setBlue();
+        System.out.println("[INC08] Curious only. When object <=2m: keep buffer=30cm. X to stop.");
+
+        while (!xPressed) {
+            api.move(WANDER_L, WANDER_R, 250);
+
+            double d = readDistanceAvg(2);
+            if (d > 0 && d <= DETECT_WITHIN_CM) {
+                curiousMaintainBuffer();
+                setBlue();
+            }
+        }
