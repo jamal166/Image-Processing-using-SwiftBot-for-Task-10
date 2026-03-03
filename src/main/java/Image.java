@@ -26,3 +26,56 @@ public class Inc09_CuriousWithImageMovedCheck {
         try { new Inc09_CuriousWithImageMovedCheck().run(); }
         catch (Exception e) { e.printStackTrace(); }
     }
+    private void run() throws Exception {
+        setupXButtonStop();
+        Files.createDirectories(IMAGE_DIR);
+
+        setBlue();
+        System.out.println("[INC09] Curious + moved check. Object<=2m -> buffer 30cm -> save -> wait5s -> compare ROI occupancy. X to stop.");
+
+        while (!xPressed) {
+            api.move(18, 20, 250);
+
+            double d = readDistanceAvg(2);
+            if (d > 0 && d <= DETECT_WITHIN_CM) {
+                setGreen();
+                api.stopMove();
+
+                // Move to buffer
+                reachBuffer();
+
+                // Save reference image
+                Path refPath = saveImage("curious_ref");
+                BufferedImage refImg = ImageIO.read(refPath.toFile());
+
+                // Wait 5s
+                sleep(5000);
+
+                // Capture later image
+                BufferedImage later = api.takeStill(SIZE);
+
+                int occRef = roiWhiteOccupancy(refImg);
+                int occLater = roiWhiteOccupancy(later);
+                int delta = occLater - occRef;
+
+                System.out.println("[INC09] ROI occupancy delta = " + delta);
+
+                if (Math.abs(delta) < OCCUPANCY_DELTA_THRESHOLD) {
+                    // Not moved: wait 1s and turn slightly then resume
+                    api.stopMove();
+                    sleep(1000);
+                    slightTurn();
+                } else if (delta > 0) {
+                    // appears closer -> move back slightly
+                    api.move(-25, -25, 250);
+                    api.stopMove();
+                } else {
+                    // appears farther -> move forward slightly
+                    api.move(25, 25, 250);
+                    api.stopMove();
+                }
+
+                api.disableUnderlights();
+                setBlue();
+            }
+        }
