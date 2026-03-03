@@ -167,3 +167,21 @@ public class Inc09_CuriousWithImageMovedCheck {
     }
     return out;
 }
+private static int roiWhiteOccupancy(BufferedImage img) {
+    BufferedImage bw = thresholdToBW(img);
+
+    int w = bw.getWidth(), h = bw.getHeight();
+    int x0 = (int)Math.round(w*ROI_MIN), x1 = (int)Math.round(w*ROI_MAX);
+    int y0 = (int)Math.round(h*ROI_MIN), y1 = (int)Math.round(h*ROI_MAX);
+
+    int white = (255<<16)|(255<<8)|255;
+    int count = 0;
+
+    for (int y=y0;y<y1;y+=2){
+        for (int x=x0;x<x1;x+=2){
+            int p = bw.getRGB(x,y) & 0xFFFFFF;
+            if (p == (white & 0xFFFFFF)) count++;
+        }
+    }
+    return count;
+}
