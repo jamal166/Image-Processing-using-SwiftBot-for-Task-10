@@ -83,3 +83,22 @@ public class Inc09_CuriousWithImageMovedCheck {
         api.disableUnderlights();
         api.disableAllButtons();
     }
+    private void reachBuffer() {
+        while (!xPressed) {
+            double d = readDistanceAvg(2);
+            if (d <= 0) break;
+
+            if (d > BUFFER_CM + TOLERANCE_CM) {
+                api.startMove(25, 25);
+                sleep(120);
+            } else if (d < BUFFER_CM - TOLERANCE_CM) {
+                api.startMove(-25, -25);
+                sleep(120);
+            } else {
+                api.stopMove();
+                blinkGreen();
+                break;
+            }
+        }
+        api.stopMove();
+    }
