@@ -58,3 +58,9 @@ public class Inc08_CuriousOnlyBuffer {
         api.stopMove();
         api.disableUnderlights();
     }
+    private void blinkGreen() {
+        for (int i=0;i<3 && !xPressed;i++){
+            setGreen(); sleep(200);
+            api.disableUnderlights(); sleep(200);
+        }
+    }
