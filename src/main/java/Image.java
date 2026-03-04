@@ -51,3 +51,8 @@ public class Inc11_EncounterFrequencyPrompt {
 
             if (!within2m) triggered = false;
         }
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+        System.out.println("[INC11] Stopped.");
+    }
