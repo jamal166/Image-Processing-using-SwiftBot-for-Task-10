@@ -68,4 +68,12 @@ public class Inc11_EncounterFrequencyPrompt {
         prune();
         return encounters.size();
     }
+    private char promptCT() {
+        while (true) {
+            System.out.print("[INC11] >3 encounters in 5 min. Enter C (continue/change) or T (terminate): ");
+            String s = sc.nextLine().trim().toUpperCase(Locale.ROOT);
+            if (s.equals("C")) return 'C';
+            if (s.equals("T")) return 'T';
+        }
+    }
 
