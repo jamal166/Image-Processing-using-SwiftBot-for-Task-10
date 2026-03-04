@@ -79,5 +79,18 @@ public class Inc10_DubiousRandomChoice {
         }
         return ok==0 ? -1 : sum/ok;
     }
+    private void setBlue(){ api.fillUnderlights(new int[]{0,0,255}); }
+    private void setGreen(){ api.fillUnderlights(new int[]{0,255,0}); }
+    private void setRed(){ api.fillUnderlights(new int[]{255,0,0}); }
+
+    private void setupXButtonStop() {
+        api.disableAllButtons();
+        api.enableButton(Button.X, () -> xPressed = true);
+    }
+
+    private static void sleep(int ms){
+        try{ Thread.sleep(ms);} catch(InterruptedException ignored){}
+    }
+}
 
 
