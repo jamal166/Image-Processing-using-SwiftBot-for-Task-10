@@ -55,3 +55,8 @@ public class Inc10_DubiousRandomChoice {
 
             if (!within2m) triggered = false;
         }
+        api.stopMove();
+        api.disableUnderlights();
+        api.disableAllButtons();
+    }
+
