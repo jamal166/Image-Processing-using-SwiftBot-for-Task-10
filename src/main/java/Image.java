@@ -56,3 +56,7 @@ public class Inc11_EncounterFrequencyPrompt {
         api.disableAllButtons();
         System.out.println("[INC11] Stopped.");
     }
+    private void recordEncounter() {
+        encounters.add(Instant.now());
+        prune();
+    }
