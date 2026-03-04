@@ -64,3 +64,8 @@ public class Inc11_EncounterFrequencyPrompt {
         Instant cutoff = Instant.now().minus(WINDOW);
         encounters.removeIf(t -> t.isBefore(cutoff));
     }
+    private int countInWindow() {
+        prune();
+        return encounters.size();
+    }
+
