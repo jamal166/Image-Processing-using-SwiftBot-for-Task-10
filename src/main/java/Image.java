@@ -45,7 +45,7 @@ public class Inc12_FinalTask10 {
     private static final int[] ALLOWED_BUFFERS = {20, 30, 40};
     private static final int TOLERANCE_CM = 2;
 
-    private static final int DETECT_WITHIN_CM = 200;
+    private static final int DETECT_WITHIN_CM = 200; // 2m
     private static final int SCAREDY_WITHIN_CM = 50;
 
     private static final int ENCOUNTER_LIMIT = 3;
@@ -54,8 +54,28 @@ public class Inc12_FinalTask10 {
     private static final Duration OBJECT_CHECK_INTERVAL = Duration.ofSeconds(5);
     private static final Duration WANDER_NO_OBJECT_TIMEOUT = Duration.ofSeconds(5);
 
-    private static final int WANDER_L = 18;
-    private static final int WANDER_R = 20;
+    // ======= SPEED MODIFICATIONS (FASTER) =======
+    private static final int WANDER_L = 40;   // was 18
+    private static final int WANDER_R = 44;   // was 20
+    private static final int WANDER_STEP_MS = 700; // was 250
+
+    private static final int TURN_SPEED = 35;      // was 20
+    private static final int TURN_MS = 400;        // was 250
+
+    private static final int BUFFER_ADJUST_SPEED = 35;  // was 25
+    private static final int BUFFER_STEP_MS = 120;      // keep same (stable control)
+
+    private static final int CURIOUS_CORRECT_SPEED = 35; // was 25
+    private static final int CURIOUS_CORRECT_MS = 300;   // was 250
+
+    // Optional faster Scaredy (enabled here)
+    private static final int SCAREDY_BACK_SPEED = 45; // was 35
+    private static final int SCAREDY_BACK_MS = 700;   // was 600
+    private static final int SCAREDY_TURN_SPEED = 55; // was 40
+    private static final int SCAREDY_TURN_MS = 500;   // was 450
+    private static final int SCAREDY_AWAY_SPEED = 45; // was 35
+    private static final int SCAREDY_AWAY_MS = 3000;  // keep 3 seconds
+    // ===========================================
 
     private Mode selectedMode;
     private int curiousBufferCm = DEFAULT_BUFFER_CM;
@@ -175,10 +195,12 @@ public class Inc12_FinalTask10 {
             sleep(1000);
             slightTurn();
         } else if (delta > 0) {
-            api.move(-25, -25, 250);
+            // appears closer -> move back slightly (FASTER)
+            api.move(-CURIOUS_CORRECT_SPEED, -CURIOUS_CORRECT_SPEED, CURIOUS_CORRECT_MS);
             api.stopMove();
         } else {
-            api.move(25, 25, 250);
+            // appears farther -> move forward slightly (FASTER)
+            api.move(CURIOUS_CORRECT_SPEED, CURIOUS_CORRECT_SPEED, CURIOUS_CORRECT_MS);
             api.stopMove();
         }
 
@@ -192,11 +214,11 @@ public class Inc12_FinalTask10 {
             if (d <= 0) break;
 
             if (d > curiousBufferCm + TOLERANCE_CM) {
-                api.startMove(25, 25);
-                sleep(120);
+                api.startMove(BUFFER_ADJUST_SPEED, BUFFER_ADJUST_SPEED);  // faster
+                sleep(BUFFER_STEP_MS);
             } else if (d < curiousBufferCm - TOLERANCE_CM) {
-                api.startMove(-25, -25);
-                sleep(120);
+                api.startMove(-BUFFER_ADJUST_SPEED, -BUFFER_ADJUST_SPEED); // faster
+                sleep(BUFFER_STEP_MS);
             } else {
                 api.stopMove();
                 blink(0,255,0);
@@ -213,9 +235,12 @@ public class Inc12_FinalTask10 {
 
             blink(255,0,0);
             setRed();
-            api.move(-35, -35, 600);
-            api.move(40, -40, 450);
-            api.move(35, 35, 3000);
+
+            // Faster flee sequence
+            api.move(-SCAREDY_BACK_SPEED, -SCAREDY_BACK_SPEED, SCAREDY_BACK_MS);
+            api.move(SCAREDY_TURN_SPEED, -SCAREDY_TURN_SPEED, SCAREDY_TURN_MS);
+            api.move(SCAREDY_AWAY_SPEED, SCAREDY_AWAY_SPEED, SCAREDY_AWAY_MS);
+
             api.stopMove();
             setBlue();
         }
@@ -223,13 +248,13 @@ public class Inc12_FinalTask10 {
 
     private void wanderStep() {
         setBlue();
-        api.move(WANDER_L, WANDER_R, 250);
+        api.move(WANDER_L, WANDER_R, WANDER_STEP_MS); // faster + longer step
         if (Math.random() < 0.30) slightTurn();
     }
 
     private void slightTurn() {
         int t = Math.random() < 0.5 ? 1 : -1;
-        api.move(20*t, -20*t, 250);
+        api.move(TURN_SPEED * t, -TURN_SPEED * t, TURN_MS); // stronger + longer turn
         api.stopMove();
     }
 
@@ -475,10 +500,10 @@ public class Inc12_FinalTask10 {
 
     private static void printWelcome() {
         System.out.println("====================================================");
-        System.out.println(" Inc12 Final – SwiftBot Task 10 Detect Object");
+        System.out.println(" Inc12 Final – SwiftBot Task 10 Detect Object (FASTER)");
         System.out.println("====================================================");
         System.out.println(" - Scan QR for mode");
-        System.out.println(" - Wander blue");
+        System.out.println(" - Wander blue (faster speeds)");
         System.out.println(" - Detect within 2m (ultrasound), and also ROI change (camera)");
         System.out.println(" - Press X to stop");
         System.out.println();
